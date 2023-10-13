@@ -6,7 +6,13 @@ package jktv22library;
 
 import entity.Author;
 import entity.Book;
+import entity.History;
+import entity.Reader;
+import java.util.Arrays;
 import java.util.Scanner;
+import managers.BookManager;
+import managers.HistoryManager;
+import managers.ReaderManager;
 
 
 /**
@@ -14,7 +20,9 @@ import java.util.Scanner;
  * @author pupil
  */
 class App {
-
+private Book[] books = new Book[0];
+private Reader[] readers = new Reader[0];
+private History[] histories = new History[0];
     void run() {
         boolean repeat = true;
         Scanner scanner = new Scanner(System.in);
@@ -22,6 +30,9 @@ class App {
             System.out.println("Select task:");
             System.out.println("0. Exit");
             System.out.println("1. Add new book");
+            System.out.println("2. Add new reader");
+            System.out.println("3. Give book to read");
+            System.out.print("Set task: ");
             int task = scanner.nextInt();scanner.nextLine();
             switch (task){
                 case 0:
@@ -29,26 +40,19 @@ class App {
                     break;
                     
                 case 1:
-                    Book book = new Book();
-                    System.out.print("Enter book title");
-                    book.setTitle(scanner.nextLine());
-                    System.out.print("Enter book published year");
-                    book.setPublishedYear(scanner.nextInt());
-                    scanner.nextLine();
-                    System.out.println("How many authors: ");
-                    int countAuthors = scanner.nextInt();scanner.nextLine();
-                    for (int i = 0; i < countAuthors; i++) {
-                        System.out.println(i+1+" author:");
-                        System.out.print("Author firstname: ");
-                        String authorFirstname = scanner.nextLine();
-                        System.out.print("Author lastname: ");
-                        String authorLastname = scanner.nextLine();
-                        book.addAuthor(new Author(authorFirstname, authorLastname));
-                    }                   
+                    BookManager bookManager = new BookManager(scanner);
+                    addBookToArray(bookManager.addBook());                  
+                    break; 
                     
-                    System.out.println("Added book: ");
-                    System.out.println(book.toString());
-                    break;                
+                case 2:
+                    ReaderManager readerManager = new ReaderManager(scanner);
+                    addReaderToArray(readerManager.addReader());                
+                    break;
+                    
+                case 3:
+                    HistoryManager historyManager = new HistoryManager(scanner);
+                    addHistoryToArray(historyManager.giveOutBook(books, readers));
+                    break;
                 
                 default:
                     System.out.println("Choose task from list: ");
@@ -57,4 +61,19 @@ class App {
             System.out.println("");
         }    while (repeat);  
     }  
+
+    private void addBookToArray(Book book) {
+        this.books = Arrays.copyOf(books, books.length+1);
+        this.books[books.length-1] = book;
+    }
+
+    private void addReaderToArray(Reader reader) {
+        this.readers = Arrays.copyOf(readers, readers.length+1);
+        this.readers[readers.length-1] = reader;
+    }
+
+    private void addHistoryToArray(History history) {
+        this.histories = Arrays.copyOf(histories, histories.length+1);
+        this.histories[histories.length-1] = history;
+    }
 }
