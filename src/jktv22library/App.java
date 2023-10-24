@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 import managers.BookManager;
 import managers.ReaderManager;
+import tools.KeyboardInput;
 
  
 
@@ -58,7 +59,8 @@ class App {
             System.out.println("7. Return book");
             
             System.out.print("Set task: ");
-            int task = scanner.nextInt();scanner.nextLine();
+            
+            int task = KeyboardInput.inputNumber(0, 7);
             switch (task) {
                 case 0:
                     repeat = false;

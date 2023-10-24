@@ -12,6 +12,7 @@ import entity.Book;
 import entity.History;
 import java.util.Arrays;
 import java.util.Scanner;
+import tools.KeyboardInput;
 
  
 
@@ -29,10 +30,10 @@ private Scanner scanner;
                     System.out.print("Enter title: ");
                     book.setTitle(scanner.nextLine());
                     System.out.print("Enter published year: ");
-                    book.setPublishedYear(scanner.nextInt());
+                    book.setPublishedYear(KeyboardInput.inputNumber(1800, 2023));
                     scanner.nextLine();
                     System.out.println("How many authors: ");
-                    int countAuthors = scanner.nextInt(); scanner.nextLine();
+                    int countAuthors = KeyboardInput.inputNumber(1, 10);
                     for (int i = 0; i < countAuthors; i++) {
                         System.out.println(i+1+" author:");
                         System.out.print("Author firstname: ");
